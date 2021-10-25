@@ -4,7 +4,10 @@
  */
 package com.mycompany.sistemagestion;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -66,19 +69,17 @@ public class Formulario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(btnCacular))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(52, 52, 52)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(26, 26, 26)
-                                .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPeso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(147, 147, 147)
+                        .addComponent(btnCacular)))
                 .addContainerGap(98, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -88,13 +89,13 @@ public class Formulario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(63, 63, 63)
+                .addGap(57, 57, 57)
                 .addComponent(btnCacular)
-                .addGap(70, 70, 70))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         jLabel1.getAccessibleContext().setAccessibleName("Altura:");
@@ -110,9 +111,26 @@ public class Formulario extends javax.swing.JFrame {
         Double altura = Double.parseDouble(strAltura);
         Double peso = Double.parseDouble(strPeso);
         Double imc = peso / (altura * altura);
+        BigDecimal imcfinal = new BigDecimal(imc);
+        String diagnostico = "";
         
+        if (imc <= 18.5){
+            diagnostico = "Tienes un peso por debajo de lo normal";
+        }else if(imc >= 18.5 && imc <=24.9){
+            diagnostico= "Tienes un peso normal";
+        } else if (imc >= 25.0 && imc <= 29.9){
+            diagnostico = "Tienes sobrepeso";
+        } else if (imc >= 30.0 && imc <= 39.9){
+            diagnostico = "Tienes obesidad grado 1"; 
+        } else if (imc >= 35.5 && imc <= 39.9){
+            diagnostico = "Tienes obesidad grado 2";
+        } else if (imc > 40) {
+            diagnostico = "Padeces obesidad mórbida de alto riesgo";
+        } else {
+            diagnostico = "error";
+        }
         
-        JOptionPane.showMessageDialog(rootPane, "El imc es: " + imc);
+        JOptionPane.showMessageDialog(rootPane, "El imc es: " + imcfinal.setScale(2,RoundingMode.DOWN) + "\n" + diagnostico);
     }//GEN-LAST:event_btnCacularActionPerformed
 
     private void txtAlturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlturaActionPerformed
